@@ -14,20 +14,20 @@ namespace TicketSearch.Search
         public string Field { get; set; }
         public dynamic Term { get; set; }
         public System.Type RequiredType { get; set; }
-        private Bank Set { get; set; }
+        private Bank _set { get; set; }
         private List<Data.Type> _types { get; set; }
-        public dynamic Execute() { return Build(); }
         public Query(List<Data.Type> types, string path = null)
         {
             _types = types;
-            Set = new Bank(_types, path);
-            Set.Fill();
+            _set = new Bank(_types, path);
+            _set.Fill();
         }
+        public dynamic Execute() { return Build(); }
         private dynamic Build()
         {
-            DataTable users = Set.Data.Tables["Users"];
-            DataTable tickets = Set.Data.Tables["Tickets"];
-            DataTable organizations = Set.Data.Tables["Organizations"];
+            DataTable users = _set.Data.Tables["Users"];
+            DataTable tickets = _set.Data.Tables["Tickets"];
+            DataTable organizations = _set.Data.Tables["Organizations"];
 
 
             switch (_types.First(type => type.Selector == DataTypeId.ToString()).Name)
@@ -67,6 +67,8 @@ namespace TicketSearch.Search
                                 ticket.Field<dynamic>(Field).Date == Term.Date :
                                 ticket.Field<dynamic>(Field) == Term :
                                 RequiredType == typeof(System.Collections.Generic.List<System.String>) ?
+                                Term != "" ?
+                                ticket.Field<dynamic>(Field).Contains(Term) :
                                 ticket.Field<List<string>>(Field).Any() == false :
                                 ticket.Field<dynamic>(Field) == Term
                                 select new JoinedTicket
@@ -74,7 +76,7 @@ namespace TicketSearch.Search
                                     Organization = new Organization().Map(organization),
                                     Submitter = new User().Map(submitted),
                                     Assignee = new User().Map(assigned)
-                                }.Map(ticket));
+                                }.Map(ticket)).ToList();
                     }
                 case "Organizations":
                     {
@@ -88,13 +90,15 @@ namespace TicketSearch.Search
                                 organization.Field<dynamic>(Field).Date == Term.Date :
                                 organization.Field<dynamic>(Field) == Term :
                                 RequiredType == typeof(System.Collections.Generic.List<System.String>) ?
+                                Term != "" ?
+                                organization.Field<dynamic>(Field).Contains(Term) :
                                 organization.Field<List<string>>(Field).Any() == false :
                                 organization.Field<dynamic>(Field) == Term
                                 select new JoinedOrganisation
                                 {
                                     Users = Users.Select(user => new User().Map(user)).ToList(),
                                     Tickets = Tickets.Select(ticket => new Ticket().Map(ticket)).ToList(),
-                                }.Map(organization));
+                                }.Map(organization)).ToList();
                     }
                 default:
                     throw new Exception("Invalid DataType selected");

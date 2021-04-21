@@ -50,7 +50,7 @@ namespace TicketSearch.Data
                  {
                      Console.WriteLine($"Unable to load data for from file Type:{type.Name} Expected Location:{path}\nPress any key to return to the menu");
                      Console.ReadKey();
-                     Menu.Main.Execute();
+                     Menu.Main.Execute(Menu.Options.Get());
                  }
                  catch (System.Exception ex)
                  {

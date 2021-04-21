@@ -8,14 +8,15 @@ namespace TicketSearch.Menu
 {
     public static class Main
     {
-        private static List<Option> _options { get; set; } = Options.Get();
-        public static void Execute(dynamic input = null)
+        private static List<Option> _options { get; set; }
+        public static void Execute(dynamic input)
         {
+            _options = input;
             Console.Clear();
             Console.WriteLine("Please select on of the following actions to perform:");
             foreach (var option in _options) Console.WriteLine($"\t - Enter {option.Selector} to {option.Description}.");
             var optionSelected = Console.ReadLine();
-            var successFunction = _options.FirstOrDefault(option => option.Selector == optionSelected)?.Action;
+            var successFunction = _options.First(option => option.Selector == optionSelected).Action;
             Validation.Validate(optionSelected, Validate, successFunction, Execute);
 
         }

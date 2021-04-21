@@ -176,13 +176,13 @@ namespace TicketSearch.Functions.Results
     {
         private static int _objectLevel;
         private static int _indentSize;
-        private static readonly StringBuilder _builder = new StringBuilder();
-        public static string Format(object element, int indentSize = 2)
+
+        public static void Format(object element, int indentSize = 2)
         {
             _indentSize = indentSize;
-            return Build(element);
+            Build(element);
         }
-        private static string Build(object element)
+        private static void Build(object element)
         {
             //If element is a valuetype, null or a string format and write 
             if (element == null || element is ValueType || element is string)
@@ -266,14 +266,14 @@ namespace TicketSearch.Functions.Results
                     Write("{0}", "]");
                 }
             }
-            return _builder.ToString();
+
         }
         //takes string and formats according to objects level and nominated indentsize
         private static void Write(string value, params object[] args)
         {
             var indent = new string(' ', _objectLevel * _indentSize);
             value = (args != null ? string.Format(value, args) : value);
-            _builder.AppendLine(indent + value);
+            Console.WriteLine(indent + value);
         }
 
         //provides formats for different key object types

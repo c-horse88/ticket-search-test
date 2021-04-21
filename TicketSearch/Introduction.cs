@@ -12,6 +12,7 @@ namespace TicketSearch
             Console.WriteLine("Welcome to the Ticket Search System");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+            Menu.Main.Execute(Menu.Options.Get());
         }
 
     }

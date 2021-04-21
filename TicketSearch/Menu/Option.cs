@@ -13,7 +13,7 @@ namespace TicketSearch.Menu
         {
             _selector = selector;
             _description = description;
-            _action = Action;
+            _action = action;
         }
 
 

@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using TicketSearch.Data;
 using TicketSearch.Functions.Input;
 using TicketSearch.Functions.Results;
+
 
 
 namespace TicketSearch.Search
@@ -11,6 +13,8 @@ namespace TicketSearch.Search
     {
         public static void Execute(dynamic input)
         {
+
+
             Console.Clear();
             Console.WriteLine("Please select one of the following data types to perform search:");
             foreach (var type in Types.Get())

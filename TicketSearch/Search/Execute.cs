@@ -15,19 +15,19 @@ namespace TicketSearch.Search
             dynamic results = query.Execute();
 
             //check if results are null or an empty list before outputing search result
-            if (results == null || results.Count == 0)
+            if (results.Count == 0)
             {
-                Console.WriteLine($"No matching {query.Field} in {query.DataTypeName} when searching for {(query.Term.ToString() != "" ? query.Term.ToString() : "empty cases of")} {query.Field}");
+                Console.WriteLine($"No matching {query.Field} in {query.DataTypeName} when searching for {(query.Term != null ? query.Term?.ToString() : "empty cases of")} {query.Field}\n");
             }
             else
             {
-                Console.WriteLine(Formatter.Format(results, 5));
+                Formatter.Format(results, 5);
             }
 
             //return to main menu
             Console.WriteLine("Press any key to return to the menu");
             Console.ReadKey();
-            Main.Execute();
+            Main.Execute(Options.Get());
         }
     }
 }

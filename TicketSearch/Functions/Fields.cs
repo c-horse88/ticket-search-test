@@ -14,7 +14,7 @@ namespace TicketSearch.Functions
             List();
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
-            Main.Execute();
+            Main.Execute(Menu.Options.Get());
         }
 
         private static void List()
@@ -28,7 +28,7 @@ namespace TicketSearch.Functions
                 {
                     Console.WriteLine(String.Format("{0,-30}{1,-20}", prop.Name, new TypeTranslator(KnownTypes.Types).Translate(prop.PropertyType)));
                 }
-                Console.WriteLine("\n.");
+                Console.WriteLine("\n");
             }
         }
     }
