@@ -4,7 +4,7 @@ Sample application demonstrating my approach to providing the end user with a si
 
 ## Prerequisites
 
-- [.Net Core 3.1]("https://dotnet.microsoft.com/download/dotnet/3.1")
+- [.Net Core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1)
 
 ## Build
 
