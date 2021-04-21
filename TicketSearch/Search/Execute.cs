@@ -17,7 +17,7 @@ namespace TicketSearch.Search
             //check if results are null or an empty list before outputing search result
             if (results.Count == 0)
             {
-                Console.WriteLine($"No matching {query.Field} in {query.DataTypeName} when searching for {(query.Term != null ? query.Term?.ToString() : "empty cases of")} {query.Field}\n");
+                Console.WriteLine($"No matching value in {query.DataTypeName} when searching for {(query.Term != null ? query.Term?.ToString() : "empty cases of")} as a value for  {query.Field}\n");
             }
             else
             {

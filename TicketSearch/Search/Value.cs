@@ -23,17 +23,34 @@ namespace TicketSearch.Search
             var descriptor = TypeDescriptor.GetConverter(_query.RequiredType);
             //Use TypeDescriptor to validate input can be converted to correct type for dynamic matching
             //and add converted input to query's term and true return a result to validator
-            if (descriptor.IsValid(input))
+            //IsValid is getting a culture clash with dates so added a try catch to work around it
+            try
             {
-                _query.Term = descriptor.ConvertFromString(input);
-                return new Result(true, _query);
+                if (_query.RequiredType == typeof(Nullable<DateTime>))
+                {
+                    _query.Term = descriptor.ConvertFromString(input);
+                    return new Result(true, _query);
+                }
+                else if (descriptor.IsValid(input))
+                {
+                    _query.Term = descriptor.ConvertFromString(input);
+                    return new Result(true, _query);
+                }
+                //for types that don't need casting add input to query's term and return a true result including query to  validator
+                else if ((input == "" && _query.RequiredType == typeof(System.String)) || _query.RequiredType == typeof(System.Collections.Generic.List<System.String>))
+                {
+                    _query.Term = input;
+                    return new Result(true, _query);
+                }
             }
-            //for types that don't need casting add input to query's term and return a true result including query to  validator
-            else if ((input == "" && _query.RequiredType == typeof(System.String)) || _query.RequiredType == typeof(System.Collections.Generic.List<System.String>))
+            catch
             {
-                _query.Term = input;
-                return new Result(true, _query);
+                //inform user of invalid input and return false result including query to validator
+                Console.WriteLine($"{(input == "" ? "Blank" : input)} is not valid for the type of: {new TypeTranslator(KnownTypes.Types).Translate(_query.RequiredType)}! Press any key to continue!");
+                Console.ReadKey();
+                return new Result(false, _query);
             }
+
 
             //inform user of invalid input and return false result including query to validator
             Console.WriteLine($"{(input == "" ? "Blank" : input)} is not valid for the type of: {new TypeTranslator(KnownTypes.Types).Translate(_query.RequiredType)}! Press any key to continue!");

@@ -31,6 +31,7 @@ dotnet run
 - No ability to search for a blank field against Int type fields.
 - Tests are only centred around the TypeTranslator and Data Bank classes. Much of the user input validation logic is internalised as a private function that is reliant on the execute method.
 - using JSONIgnoreAttribute in the object to exclude fields from output this serves another purpose if a json file output function was used it would also exclude them. This is used in the objects that represent the joined data.
+- Searching for organisations relies on the timezone when looking at created by.
 
 ## Reflection
 
